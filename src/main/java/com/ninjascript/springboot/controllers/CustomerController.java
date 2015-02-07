@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CustomerController {
@@ -16,8 +18,10 @@ public class CustomerController {
     CustomerRepository customerRepository;
     
     @RequestMapping("/customers")
-    public List<Customer> customers(@RequestParam(value="lastName") String lastName)
+    public Map<String, List<Customer>> customers(@RequestParam(value="lastName") String lastName)
     {
-        return customerRepository.findByLastName(lastName);
+        Map<String, List<Customer>> map = new HashMap<>();
+        map.put("customers", customerRepository.findByLastName(lastName));
+        return map;
     }
 }
